@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="container">
+    <div class="p-3 m-3">
+        <div class="col-lg-5 rounded mx-auto border pt-4">
+            <div class="text-center col">
+
+                <img src="http://www.gptckunnamkulam.ac.in/wp-content/uploads/elementor/thumbs/logo-ocnrrmnz2be2so8zdhsops64zgmfhv0ot5esubhw70.png"
+                    alt="" class="" style="height: 150px;">
+                <hr>
+            </div>
+            <h3 class="alert alert-light rounded-pill" style="text-align:center">Login</h3>
+            <form action="/login" method="POST">
+
+                {% csrf_token %}
+
+                {% if error%}
+                <div class="alert alert-danger" role="alert">
+                    {{error}}
+                </div>
+                {% endif %}
+
+                <!-- Reg No -->
+
+                <div class="form-group">
+                    <label for="reg_no">Registration Number</label>
+                    <input required type="text" name="reg_no" id="reg_no" value="{{ values.reg_no }}"
+                        class="form-control form-control-sm" placeholder="Enter your Reg No">
+                </div>
+                <!-- email -->
+                <div class="form-group">
+                    <label for="">Email</label>
+                    <input required type="email" name="email" id="" value="{{values.email}}"
+                        class=" form-control-sm form-control" placeholder="abc@gmail.com">
+                </div>
+
+
+                <!-- password -->
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-group">
+                        <input type="password" name="password" id="password" class="form-control form-control-sm"
+                            placeholder="*********">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                Show
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    document.getElementById('togglePassword').addEventListener('click', function () {
+                        const passwordField = document.getElementById('password');
+                        const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                        passwordField.setAttribute('type', type);
+                        this.textContent = type === 'password' ? 'Show' : 'Hide';
+                    });
+                </script>
+
+                <!--Checkme button-->
+                <hr>
+                <button type="submit" class="btn btn-sm btn-success col-lg-12">Login</button>
+
+
+
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
