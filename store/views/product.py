@@ -1,19 +1,19 @@
 from django.shortcuts import render, redirect
+from django.views import View
 from store.models.product import Products
 from store.models.category import Category
-from django.views import View
 
 class ProductAddView(View):
     def get(self, request):
         categories = Category.objects.all()  # Fetch all categories
         return render(request, 'product.html', {'categories': categories})
 
-    def post(self, request):  # Indent this method inside the class
+    def post(self, request):  # POST method to handle form submissions
         postData = request.POST
         name = postData.get('name')
         price = postData.get('price')
         category_id = postData.get('category')
-        description = postData.get('description')
+        uploaded_by = postData.get('uploaded_by')
         image = request.FILES.get('image')  # Handle image upload
 
         # Convert price to integer
@@ -27,7 +27,7 @@ class ProductAddView(View):
             'name': name,
             'price': price,
             'category': category_id,  # Keep this as category, matching the template
-            'description': description
+            'uploaded_by': uploaded_by
         }
         error_message = None
 
@@ -39,7 +39,7 @@ class ProductAddView(View):
             name=name,
             price=price,
             category=category,
-            description=description,
+            uploaded_by=uploaded_by,
             image=image
         )
 
@@ -66,8 +66,8 @@ class ProductAddView(View):
             error_message = "Please Enter a valid Price for the Product"
         elif not product.category:
             error_message = "Please Select a Category for the Product"
-        elif not product.description:
-            error_message = "Please Enter a Description for the Product"
+        elif not product.uploaded_by:
+            error_message = "Please Enter Your Name"
         elif not product.image:
             error_message = "Please Upload an Image for the Product"
         return error_message

@@ -45,7 +45,7 @@
                     <select required name="category" id="category" class="form-control form-control-sm">
                         <option value="">Select Category</option>
                         {% for category in categories %}
-                        <option value="{{ category.id }}" {% if category.id==values.category.id %} selected {% endif %}>
+                        <option value="{{ category.id }}" {% if category.id == values.category.id %} selected {% endif %}>
                             {{ category.name }}
                         </option>
                         {% endfor %}
@@ -53,11 +53,11 @@
                 </div>
 
 
-                <!-- Description -->
+                <!-- Uploaded by -->
                 <div class="form-group mb-3">
-                    <label for="description">Description</label>
-                    <textarea name="description" id="description" class="form-control form-control-sm"
-                        rows="3">{{ values.description }}</textarea>
+                    <label for="uploaded_by">Uploaded by</label>
+                    <input required type="text" name="uploaded_by" placeholder="Enter your Name" id="uploaded_by" value="{{ values.uploaded_by }}"
+                        class="form-control form-control-sm">
                 </div>
 
                 <!-- Product Image -->
