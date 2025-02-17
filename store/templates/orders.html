@@ -17,8 +17,10 @@
                     <th>Date</th>
                     <th>Price</th>
                     <th>Quantity</th>
-                    <th>Total</th>
+                    <th>Total</th> 
                     <th>Status</th>
+                    <th>Contact</th>
+                    <th>Email</th>
                 </tr>
             </thead>
             <tbody>
@@ -37,6 +39,9 @@
                     {%else%}
                     <td><small class="badge badge-success">Completed</small></td>
                     {% endif %}
+                    <td>{{ order.product.phone_no }}</td>
+                    <td>{{ order.product.email }}</td>
+
                 </tr>
 
                 {% endfor %}

@@ -3,9 +3,7 @@
 {% block content %}
 
 <div class="container mt-4">
-
     <div class="p-3 m-3">
-
         <div class="col-lg-5 rounded mx-auto border pt-4" style="background-color: #f8f9fa;">
             <div class="text-center col">
                 <img src="http://www.gptckunnamkulam.ac.in/wp-content/uploads/elementor/thumbs/logo-ocnrrmnz2be2so8zdhsops64zgmfhv0ot5esubhw70.png"
@@ -17,50 +15,60 @@
 
                 {% csrf_token %}
 
-                {{ form.as_p }}
-
                 {% if error %}
                 <div class="alert alert-danger" role="alert">
                     {{ error }}
                 </div>
                 {% endif %}
 
-                <!-- Product Name -->
                 <div class="form-group mb-3">
                     <label for="name">Product Name</label>
                     <input required type="text" name="name" id="name" value="{{ values.name }}"
                         class="form-control form-control-sm">
                 </div>
 
-                <!-- Price -->
                 <div class="form-group mb-3">
                     <label for="price">Price</label>
                     <input required type="number" name="price" id="price" value="{{ values.price }}"
                         class="form-control form-control-sm" placeholder="Enter product price">
                 </div>
 
-                <!-- Category -->
                 <div class="form-group mb-3">
                     <label for="category">Category</label>
                     <select required name="category" id="category" class="form-control form-control-sm">
                         <option value="">Select Category</option>
                         {% for category in categories %}
-                        <option value="{{ category.id }}" {% if category.id == values.category.id %} selected {% endif %}>
+                        <option value="{{ category.id }}" {% if category.id == values.category %} selected {% endif %}>
                             {{ category.name }}
                         </option>
                         {% endfor %}
                     </select>
                 </div>
 
-
-                <!-- Uploaded by -->
                 <div class="form-group mb-3">
-                    <label for="uploaded_by">Uploaded by</label>
-                    <input required type="text" name="uploaded_by" placeholder="Enter your Name" id="uploaded_by" value="{{ values.uploaded_by }}"
-                        class="form-control form-control-sm">
+                    <label for="count">Product Count</label>
+                    <input required type="number" name="count" id="count" value="{{ values.count }}"
+                        class="form-control form-control-sm" placeholder="Enter product stock count">
                 </div>
 
-                <!-- Product Image -->
+                <div class="form-group mb-3">
+                    <label for="uploaded_by">Uploaded By</label>
+                    <input required type="text" name="uploaded_by" id="uploaded_by" value="{{ values.uploaded_by }}"
+                        class="form-control form-control-sm" placeholder="Enter your name">
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="phone_no">Phone Number</label>
+                    <input required type="text" name="phone_no" id="phone_no" value="{{ values.phone_no }}"
+                        class="form-control form-control-sm" placeholder="Enter your phone number">
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="email">Email</label>
+                    <input required type="email" name="email" id="email" value="{{ values.email }}"
+                        class="form-control form-control-sm" placeholder="Enter your email address">
+                </div>
+
                 <div class="form-group mb-3">
                     <label for="image">Product Image</label>
                     <input type="file" name="image" id="image" class="form-control form-control-sm">

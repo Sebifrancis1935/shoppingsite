@@ -5,56 +5,65 @@ from store.models.category import Category
 
 class ProductAddView(View):
     def get(self, request):
-        categories = Category.objects.all()  # Fetch all categories
+        categories = Category.objects.all()
         return render(request, 'product.html', {'categories': categories})
 
-    def post(self, request):  # POST method to handle form submissions
+    def post(self, request):
         postData = request.POST
         name = postData.get('name')
         price = postData.get('price')
         category_id = postData.get('category')
         uploaded_by = postData.get('uploaded_by')
-        image = request.FILES.get('image')  # Handle image upload
+        count = postData.get('count')
+        phone_no = postData.get('phone_no')
+        email = postData.get('email')
+        image = request.FILES.get('image')
 
-        # Convert price to integer
+        # Convert price and count to integer
         try:
-            price = int(price)  # Ensure price is an integer
+            price = int(price)
         except ValueError:
-            price = 0  # Default to 0 if the conversion fails
+            price = 0
 
-        # Store form values in case of an error
+        try:
+            count = int(count)
+        except ValueError:
+            count = 1  # Default count to 1 if invalid
+
         value = {
             'name': name,
             'price': price,
-            'category': category_id,  # Keep this as category, matching the template
-            'uploaded_by': uploaded_by
+            'category': category_id,
+            'uploaded_by': uploaded_by,
+            'count': count,
+            'phone_no': phone_no,
+            'email': email
         }
         error_message = None
 
-        # Get category object
         category = Category.objects.get(id=category_id) if category_id else None
 
-        # Create product instance
         product = Products(
             name=name,
             price=price,
             category=category,
             uploaded_by=uploaded_by,
+            count=count,
+            phone_no=phone_no,
+            email=email,
             image=image
         )
 
-        # Validate product details
         error_message = self.validateProduct(product)
 
         if not error_message:
-            product.save()  # Save the product to the database
-            return redirect('homepage')  # Redirect to a product listing page (adjust as needed)
+            product.save()
+            return redirect('homepage')
         else:
-            # Ensure category is correctly passed back
             data = {
                 'error': error_message,
-                'values': value,  # Passing back the form values including category
-                'categories': Category.objects.all()  # Pass categories back for selection
+                'values': value,
+                'categories': Category.objects.all()
             }
             return render(request, 'product.html', data)
 
@@ -70,4 +79,10 @@ class ProductAddView(View):
             error_message = "Please Enter Your Name"
         elif not product.image:
             error_message = "Please Upload an Image for the Product"
+        elif not product.count or product.count < 0:
+            error_message = "Please Enter a valid Product Count"
+        elif not product.phone_no:
+            error_message = "Please Enter Your Phone Number"
+        elif not product.email:
+            error_message = "Please Enter Your Email"
         return error_message

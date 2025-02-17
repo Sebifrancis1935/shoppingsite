@@ -18,18 +18,28 @@ class CheckOut(View):
         print(address, phone, customer, cart, products)
 
         for product in products:
-            print(cart.get(str(product.id)))
-            order = Order(customer=Customer(id=customer),
-                          product=product,
-                          price=product.price,
-                          address=address,
-                          phone=phone,
-                          quantity=cart.get(str(product.id)))
-            order.save()
+            quantity_ordered = cart.get(str(product.id), 0)
+            if quantity_ordered > 0:
+                order = Order(
+                    customer=Customer(id=customer),
+                    product=product,
+                    price=product.price,
+                    address=address,
+                    phone=phone,
+                    quantity=quantity_ordered
+                )
+                order.save()
+
+                # Decrease product count
+                product.count -= quantity_ordered
+                if product.count < 0:
+                    product.count = 0  # Ensure count does not go negative
+                product.save()
+
+        # Clear the cart after checkout
         request.session['cart'] = {}
 
         return redirect('cart')
-
 class RemoveProduct(View):
     def get(self, request):
         request.session['cart'] = {}  # Clear all items from the cart
